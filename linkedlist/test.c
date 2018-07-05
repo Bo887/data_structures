@@ -1,13 +1,6 @@
 #include <stdio.h>
-#include "linkedlist.h"
+#include <assert.h>
 
 int main(){
-	List* list = create();
-	if (list == NULL){
-		printf("HIHIHIHIHI\n");
-	}
-	printf("test\n");
-	printf("%d\n", list->size());
-
+	return 0;
 }
-
