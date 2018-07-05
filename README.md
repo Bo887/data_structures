@@ -1,2 +1,2 @@
 # data_structures
-Implementation of Data Structures to practice C programming
+Implementation of common data structures to practice C programming
