@@ -16,7 +16,7 @@ typedef struct List{
 
 	int (*delete)(int val);
 
-	int (*size)(int val);
+	int (*size)();
 
 	int (*contains)(int val);
 		
