@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -I .
-TARGET = linkedlist
+TARGET = linkedlist.out
 OBJ = $(patsubst %.c, %.o, $(wildcard *.c))
 DEPS = $(wildcard *.h)
 
