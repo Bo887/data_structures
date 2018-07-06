@@ -53,6 +53,6 @@ struct List{
 List* create();
 
 //destroys the list
-void destroy(List* this);
+void destroy(List** this);
 
 #endif

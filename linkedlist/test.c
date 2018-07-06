@@ -92,7 +92,7 @@ int main(){
 	list->pop_front(list);
 	assert(list->get(list, 0) == -1);
 
-	destroy(list);
+	destroy(&list);
 	assert(list == NULL);
 
 	return 0;

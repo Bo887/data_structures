@@ -13,7 +13,9 @@ static Node* create_node(int val){
 
 //static so method not accessable outside of this file
 static void reset(List* list){
+	free(list->start);
 	list->start = NULL;
+	free(list->end);
 	list->end = NULL;
 	list->m_size = 0;
 }
@@ -59,6 +61,8 @@ int pop_front(List* this){
 	this->start = this->start->next;
 	this->start->prev = NULL;
 	this->m_size--;
+	free(orig);
+	orig = NULL;
 	return rv;
 }
 
@@ -73,6 +77,8 @@ int pop_back(List* this){
 	this->end = this->end->prev;
 	this->end->next = NULL;
 	this->m_size--;
+	free(orig);
+	orig = NULL;
 	return rv;
 }
 
@@ -92,6 +98,7 @@ int l_remove(List* this, int val){
 				it->next->prev = it->prev;
 			}
 			free(it);
+			it = NULL;
 			this->m_size--;
 			return 0;
 		}
@@ -152,8 +159,8 @@ List* create(){
 	return list;
 }
 
-void destroy(List* this){
-	free(this);
-	this = NULL;
+void destroy(List** this){
+	free(*this);
+	*this = NULL;
 }
 
