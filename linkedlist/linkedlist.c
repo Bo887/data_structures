@@ -4,7 +4,7 @@
 
 //static so method not accessable outside of this file
 static Node* create_node(int val){
-	Node* node = malloc(sizeof(node));
+	Node* node = malloc(sizeof(Node));
 	node->val = val;
 	node->prev = NULL;
 	node->next = NULL;
@@ -15,7 +15,6 @@ static Node* create_node(int val){
 static void reset(List* list){
 	free(list->start);
 	list->start = NULL;
-	free(list->end);
 	list->end = NULL;
 	list->m_size = 0;
 }
