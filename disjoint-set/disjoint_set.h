@@ -5,15 +5,14 @@ typedef struct _DisjointSet DisjointSet;
 
 struct _DisjointSet{
 	int* parent;
+	int max_size;
 };
 
-void join(DisjointSet this, int p, int q);
+int join(DisjointSet* this, int p, int q);
 
-int add(DisjointSet this, int p);
+int find_root(DisjointSet* this, int val);
 
-int connected(DisjointSet this, int p, int q);
-
-int size(DisjointSet this);
+int connected(DisjointSet* this, int p, int q);
 
 DisjointSet* create(int size);
 
