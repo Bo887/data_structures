@@ -1,11 +1,11 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-typedef struct Node Node;
+typedef struct _Node Node;
 
-struct Node{
-	struct Node* next;
-	struct Node* prev;
+struct _Node{
+	struct _Node* next;
+	struct _Node* prev;
 	int val;
 };
 

@@ -1,9 +1,9 @@
 #ifndef DISTJOINT_SET_H
 #define DISTJOINT_SET_H
 
-typedef struct DisjointSet DisjointSet;
+typedef struct _DisjointSet DisjointSet;
 
-struct DisjointSet{
+struct _DisjointSet{
 	int* parent;
 };
 
