@@ -17,6 +17,11 @@ int main(){
 	assert(rv == 0);
 	assert(connected(test, 0, 9));
 	assert(!connected(test, 0, 1));
+
+	join(test, 0, 1);
+	assert(connected(test, 0, 1));
+	assert(connected(test, 1, 9));
+
 	
 	destroy(&test);
 	assert(test == NULL);

@@ -8,7 +8,6 @@ static int within_bounds(DisjointSet* this, int val){
 	return val >= 0 && val < max_size;
 }
 
-
 int join(DisjointSet* this, int p, int q){
 	if (!within_bounds(this, p) || !within_bounds(this,q)){
 		return -1;
@@ -16,7 +15,7 @@ int join(DisjointSet* this, int p, int q){
 	int root_p = find_root(this, p);
 	int root_q = find_root(this, q);
 	if (root_p != root_q){
-		this->parent[p] = q;
+		this->parent[root_p] = root_q;
 	}
 	return 0;
 }
