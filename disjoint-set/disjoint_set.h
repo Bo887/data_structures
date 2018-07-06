@@ -4,7 +4,10 @@
 typedef struct _DisjointSet DisjointSet;
 
 struct _DisjointSet{
+	//parent[i] = the parent of element i
 	int* parent;
+	//size[i] = the size of the subtree that has root i
+	int* size;
 	int max_size;
 };
 
