@@ -1,9 +1,9 @@
 #include "linkedlist.h" 
 #include <stdlib.h>
 #include <stdio.h>
-#include <assert.h>
 
-Node* create_node(int val){
+//static so method not accessable outside of this file
+static Node* create_node(int val){
 	Node* node = malloc(sizeof(node));
 	node->val = val;
 	node->prev = NULL;
@@ -11,7 +11,8 @@ Node* create_node(int val){
 	return node;
 }
 
-void reset(List* list){
+//static so method not accessable outside of this file
+static void reset(List* list){
 	list->start = NULL;
 	list->end = NULL;
 	list->m_size = 0;
