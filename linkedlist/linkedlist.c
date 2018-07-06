@@ -150,6 +150,15 @@ List* create(){
 }
 
 void destroy(List** this){
+	if ((*this)->start == (*this)->end){
+		free((*this)->start);
+	}
+	else{
+		free((*this)->start);
+		free((*this)->end);
+	}
+	(*this)->start = NULL;
+	(*this)->end = NULL;
 	free(*this);
 	*this = NULL;
 }

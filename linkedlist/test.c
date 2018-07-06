@@ -92,6 +92,8 @@ int main(){
 	pop_front(list);
 	assert(get(list, 0) == -1);
 
+	//test destructor
+	push_back(list, 4);	
 	destroy(&list);
 	assert(list == NULL);
 
