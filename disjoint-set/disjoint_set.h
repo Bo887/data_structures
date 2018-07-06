@@ -7,16 +7,16 @@ struct _DisjointSet{
 	int* parent;
 };
 
-void (*join)(DisjointSet this, int p, int q);
+void join(DisjointSet this, int p, int q);
 
-int (*add)(DisjointSet this, int p);
+int add(DisjointSet this, int p);
 
-int (*connected)(DisjointSet this, int p, int q);
+int connected(DisjointSet this, int p, int q);
 
-int (*size)(DisjointSet this);
+int size(DisjointSet this);
 
-DisjointSet* create();
+DisjointSet* create(int size);
 
-void free(DisjointSet* dset);
+void destroy(DisjointSet** disjoint_set);
 
 #endif
