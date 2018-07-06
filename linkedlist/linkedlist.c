@@ -21,7 +21,7 @@ static void reset(List* list){
 
 void push_front(List* this, int val){
 	Node* node = create_node(val);
-	if (this->size(this) == 0){
+	if (size(this) == 0){
 		this->start = node;
 		this->end = node;
 		this->m_size++;
@@ -35,7 +35,7 @@ void push_front(List* this, int val){
 
 void push_back(List* this, int val){
 	Node* node = create_node(val);
-	if (this->size(this) == 0){
+	if (size(this) == 0){
 		this->end = node;
 		this->start = node;
 		this->m_size++;
@@ -49,10 +49,10 @@ void push_back(List* this, int val){
 
 int pop_front(List* this){
 	//if list is empty, return -1
-	if (this->size(this) == 0) return -1;
+	if (size(this) == 0) return -1;
 	int rv = this->start->val;
 	//special case if list only has 1 item
-	if (this->size(this) == 1){
+	if (size(this) == 1){
 		reset(this);
 		return rv;
 	}
@@ -66,9 +66,9 @@ int pop_front(List* this){
 }
 
 int pop_back(List* this){
-	if (this->size(this) == 0) return -1;
+	if (size(this) == 0) return -1;
 	int rv = this->end->val;
-	if (this->size(this) == 1){
+	if (size(this) == 1){
 		reset(this);
 		return rv;
 	}
@@ -81,7 +81,7 @@ int pop_back(List* this){
 	return rv;
 }
 
-int l_remove(List* this, int val){
+int delete(List* this, int val){
 	for(Node* it = this->start; it != NULL; it = it->next){
 		if (it->val == val){
 			if (it->prev == NULL){
@@ -121,7 +121,7 @@ int contains(List* this, int val){
 }
 
 int get(List* this, int index){
-	if (index < 0 || index > this->size(this)-1) return -1;
+	if (index < 0 || index > size(this)-1) return -1;
 	Node* curr = this->start;
 	for(int cnt = 0; cnt < index; cnt++){
 		curr = curr->next;
@@ -145,15 +145,6 @@ List* create(){
 		list->start = NULL;	
 		list->end = NULL;
 		list->m_size = 0;
-		list->push_front = push_front;
-		list->push_back = push_back;
-		list->pop_front = pop_front;
-		list->pop_back = pop_back;
-		list->contains = contains;
-		list->get = get;
-		list->remove = l_remove;
-		list->size = size;
-		list->print = print;
 	}
 	return list;
 }
