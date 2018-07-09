@@ -11,10 +11,13 @@ struct _DisjointSet{
 	int max_size;
 };
 
+//aka union, joins two elements together
 int join(DisjointSet* this, int p, int q);
 
+//returns the root of the specified element
 int find_root(DisjointSet* this, int val);
 
+//returns 1 if p and q are connected, otherwise returns 0
 int connected(DisjointSet* this, int p, int q);
 
 DisjointSet* create(int size);
