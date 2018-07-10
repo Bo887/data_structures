@@ -57,7 +57,9 @@ static void sink(Heap* this, int id){
 			child++;
 		}
 		//if heap conditions are no longer violated, break
-		if (!cmp(this->type, this->arr[id], this->arr[child])) break;
+		if (!cmp(this->type, this->arr[id], this->arr[child])){
+			break;
+		}
 		//otherwise exchange elements and continue
 		swap(this->arr, id, child);
 		id = child;
@@ -66,27 +68,20 @@ static void sink(Heap* this, int id){
 
 static int is_heap_ordered(Heap* this, int id){
 	if (id > this->num_elem) return 1;
-	int curr = this->arr[id];
-	int rv;
-	if (id*2 > this->num_elem){
-		return 1;
-	}
-	else if (id*2+1 > this->num_elem){
-		if (this->type == MAX){
-			rv = curr >= this->arr[id*2];
+	int child_l = 2*id;
+	if (child_l <= this->num_elem){
+		if (cmp(this->type, this->arr[id], this->arr[child_l])){
+			return 0;
 		}
-		else rv = curr <= this->arr[id*2];
-		return rv;
+		else return is_heap_ordered(this, child_l);
 	}
-	int child_1 = this->arr[id*2];
-	int child_2 = this->arr[id*2+1];
-	if (this->type == MAX){
-		rv = curr >= child_1 && curr >= child_2;
+	int child_r = child_l+1;
+	if (child_r <= this->num_elem){
+		if (cmp(this->type, this->arr[id], this->arr[child_r])){
+			return 0;
+		}
+		else return is_heap_ordered(this, child_r);
 	}
-	else{
-		rv = curr <= child_1 && curr <= child_2;
-	}
-	return rv && is_heap_ordered(this, id*2) && is_heap_ordered(this, id*2+1);
 }
 
 int test_functions(){
@@ -143,7 +138,7 @@ int pop(Heap* this){
 	int val = this->arr[1];
 	swap(this->arr, 1, this->num_elem);
 	this->num_elem--;
-	sink(this, this->arr[1]);
+	sink(this, 1);
 	if (this->num_elem <= this->curr_max_size/4){
 		this->curr_max_size/=2;
 		this->arr = halve_arr(this->arr, this->curr_max_size);
