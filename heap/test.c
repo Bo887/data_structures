@@ -28,6 +28,9 @@ int main(){
 	printf("MAX + POP: %d\n", pop(heap));
 	print(heap);
 
+	printf("MAX + POP: %d\n", pop(heap));
+	print(heap);
+
 	destroy(&heap);
 	return 0;
 }

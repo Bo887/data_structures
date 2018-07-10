@@ -64,6 +64,31 @@ static void sink(Heap* this, int id){
 	}
 }
 
+static int is_heap_ordered(Heap* this, int id){
+	if (id > this->num_elem) return 1;
+	int curr = this->arr[id];
+	int rv;
+	if (id*2 > this->num_elem){
+		return 1;
+	}
+	else if (id*2+1 > this->num_elem){
+		if (this->type == MAX){
+			rv = curr >= this->arr[id*2];
+		}
+		else rv = curr <= this->arr[id*2];
+		return rv;
+	}
+	int child_1 = this->arr[id*2];
+	int child_2 = this->arr[id*2+1];
+	if (this->type == MAX){
+		rv = curr >= child_1 && curr >= child_2;
+	}
+	else{
+		rv = curr <= child_1 && curr <= child_2;
+	}
+	return rv && is_heap_ordered(this, id*2) && is_heap_ordered(this, id*2+1);
+}
+
 int test_functions(){
 	//test resize array
 	int* arr = malloc(sizeof(int)*10);
@@ -107,6 +132,7 @@ void push(Heap* this, int p){
 	this->num_elem++;
 	this->arr[this->num_elem] = p;
 	swim(this, this->num_elem);
+	assert(is_heap_ordered(this, 1));
 }
 
 int top(Heap* this){
@@ -122,6 +148,7 @@ int pop(Heap* this){
 		this->curr_max_size/=2;
 		this->arr = halve_arr(this->arr, this->curr_max_size);
 	}
+	assert(is_heap_ordered(this, 1));
 	return val;
 }
 
