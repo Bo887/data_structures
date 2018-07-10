@@ -13,9 +13,7 @@ struct _Heap{
 	int curr_max_size;
 };
 
-int* double_arr(int* arr, int new_size);
-int* halve_arr(int* arr, int new_size);
-void swap(int* arr, int a, int b);
+int test_functions();
 
 void push(Heap* this, int p);
 

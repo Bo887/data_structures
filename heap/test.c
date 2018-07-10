@@ -4,44 +4,8 @@
 
 #include "heap.h"
 
-int test_resize_arr(){
-	int* arr = malloc(sizeof(int)*10);
-	for(int i=0; i<10; i++){
-		arr[i] = i;
-	}
-	for(int i=0; i<10; i++){
-		printf("%d ", arr[i]);
-	}
-	printf("\n");
-	arr = double_arr(arr, 20);
-	for(int i=10; i<20; i++){
-		arr[i] = i;
-	}
-	for(int i=0; i<20; i++){
-		printf("%d ", arr[i]);
-	}
-	printf("\n");
-	arr = halve_arr(arr, 10);
-	for(int i=0; i<10; i++){
-		printf("%d ", arr[i]);
-	}
-	printf("\n");
-	free(arr);
-}
-
-int test_swap(){
-	int* arr = malloc(sizeof(int)*8);
-	arr[0] = 2;
-	arr[7] = 3;
-	swap(arr, 0, 7);
-	assert(arr[0] == 3);
-	assert(arr[7] == 2);
-	free(arr);
-}
-
 int main(){
-	test_swap();
-	test_resize_arr();
+	test_functions();
 
 	Heap* heap = create(MAX);
 	push(heap, 10);
