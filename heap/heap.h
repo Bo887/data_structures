@@ -1,7 +1,7 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#define INITIAL_SIZE 10
+#define INITIAL_SIZE 1
 
 typedef enum {MAX, MIN} Type;
 typedef struct _Heap Heap;

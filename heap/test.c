@@ -44,6 +44,12 @@ int main(){
 	print(heap);
 	assert(size(heap) == 0);
 
+	push(heap, 1);
+	push(heap, 4);
+	push(heap, 45);
+	print(heap);
+	assert(size(heap) == 3);
+
 	destroy(&heap);
 	return 0;
 }
