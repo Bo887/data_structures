@@ -21,11 +21,88 @@ int* halve_arr(int* arr, int new_size){
 	return NULL;
 }
 
+//if max heap, returns true is a is less than b
+//if min heap, returns true if a is greater than b
+int cmp(Type type, int a, int b){
+	if (type == MAX){
+		return a < b;
+	}
+	else{
+		return a > b;
+	}
+}
+
+void swap(int* arr, int idx_a, int idx_b){
+	int copy = arr[idx_a];
+	arr[idx_a] = arr[idx_b];
+	arr[idx_b] = copy;
+}
+
+//makes this element swim towards the top of the heap
+void swim(Heap* this, int id){
+	//if type is max heap, keep on looping while the element is less than its parent
+	//if type is min heap, keep on looping while the element is greater than its parent
+	while(id > 1 && cmp(this->type, this->arr[id/2], this->arr[id])){
+		swap(this->arr, id/2, id);
+		id/=2;
+	}
+}
+
+void sink(Heap* this, int id){
+	while(2*id <= this->num_elem){
+		int child = 2*id;
+		//decide which child to go to
+		if (child < this->num_elem && cmp(this->type, this->arr[child], this->arr[child+1])){
+			child++;
+		}
+		//if heap conditions are no longer violated, break
+		if (!cmp(this->type, this->arr[id], this->arr[child])) break;
+		//otherwise exchange elements and continue
+		swap(this->arr, id, child);
+		id = child;
+	}
+}
+
+void push(Heap* this, int p){
+	if (this->num_elem >= this->curr_max_size-1){
+		this->curr_max_size*=2;
+		this->arr = double_arr(this->arr, this->curr_max_size);
+	}
+	this->num_elem++;
+	this->arr[this->num_elem] = p;
+	swim(this, this->num_elem);
+}
+
+int top(Heap* this){
+	return this->arr[1];
+}
+
+int pop(Heap* this){
+	int val = this->arr[1];
+	swap(this->arr, 1, this->num_elem);
+	this->num_elem--;
+	sink(this, this->arr[1]);
+	return val;
+}
+
+int size(Heap* this){
+	return this->num_elem;
+}
+
+void print(Heap* this){
+	for(int i=1; i<=this->num_elem; i++){
+		printf("%d ", this->arr[i]);
+	}
+	printf("\n");
+}
+
 Heap* create(Type type){
 	Heap* heap = malloc(sizeof(Heap));
-	int* arr = malloc(sizeof(int)*INITIAL_SIZE);
+	//1 based indexing
+	int* arr = malloc(sizeof(int)*INITIAL_SIZE+1);
 	heap->type = type;
-	heap->curr_size = INITIAL_SIZE;
+	heap->curr_max_size = INITIAL_SIZE;
+	heap->num_elem= 0;
 	heap->arr = arr;
 }
 
