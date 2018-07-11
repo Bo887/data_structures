@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c11 -I .
+CFLAGS = -Wall -std=c11 -I .
 TARGET = linkedlist.out
 OBJ = $(patsubst %.c, %.o, $(wildcard *.c))
 DEPS = $(wildcard *.h)

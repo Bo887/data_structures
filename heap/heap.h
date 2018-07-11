@@ -13,7 +13,7 @@ struct _Heap{
 	int curr_max_size;
 };
 
-int test_functions();
+void test_functions();
 
 void push(Heap* this, int p);
 

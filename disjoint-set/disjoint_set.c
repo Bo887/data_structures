@@ -57,6 +57,7 @@ DisjointSet* create(int max_size){
 	disjoint_set->parent = parent;
 	disjoint_set->size = size;
 	disjoint_set->max_size = max_size;
+	return disjoint_set;
 }
 
 void destroy(DisjointSet** disjoint_set){

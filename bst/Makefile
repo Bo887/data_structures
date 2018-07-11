@@ -1,6 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -std=c11 -I .
-TARGET = disjoint_set.out
+CFLAGS = -Wall -g -std=c11 -I .
+TARGET = bst.out
 OBJ = $(patsubst %.c, %.o, $(wildcard *.c))
 DEPS = $(wildcard *.h)
 
@@ -15,4 +15,8 @@ clean:
 
 valgrind:
 	make $(TARGET)
-	valgrind --leak-check=yes ./$(TARGET)
+	valgrind --leak-check=yes  ./$(TARGET)
+
+gdb:
+	make $(TARGET)
+	gdb ./$(TARGET)

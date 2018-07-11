@@ -82,9 +82,10 @@ static int is_heap_ordered(Heap* this, int id){
 		}
 		else return is_heap_ordered(this, child_r);
 	}
+	return 0;
 }
 
-int test_functions(){
+void test_functions(){
 	//test resize array
 	int* arr = malloc(sizeof(int)*10);
 	for(int i=0; i<10; i++){
@@ -167,6 +168,7 @@ Heap* create(Type type){
 	heap->curr_max_size = INITIAL_SIZE;
 	heap->num_elem= 0;
 	heap->arr = arr;
+	return heap;
 }
 
 void destroy(Heap** heap){
