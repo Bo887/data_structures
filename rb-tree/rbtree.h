@@ -1,11 +1,9 @@
 #ifndef RBTREE_H
 #define RBTREE_H
 
-#define MAX(x, y) ((x) > (y)) ? (x) : (y)
-
 typedef struct _Node Node;
 typedef struct _RBTree RBTree;
-typedef enum {RED, BLACK} Color;
+typedef enum {RED = 0, BLACK = 1} Color;
 
 struct _Node{
 	int val;
@@ -15,12 +13,17 @@ struct _Node{
 	Color color;
 };
 
+//left leaning red-black tree
 struct _RBTree{
 	Node* root;
 	int m_size;
 };
 
 void insert(RBTree* this, int val);
+
+void delete_min(RBTree* this);
+
+void delete_max(RBTree* this);
 
 void delete(RBTree* this, int val);
 

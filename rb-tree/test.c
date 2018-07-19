@@ -25,6 +25,18 @@ int main(){
 	assert(size(tree) == 7);
 	print(tree);
 
+	delete_min(tree);
+	print(tree);
+	delete_min(tree);
+	print(tree);
+	delete_min(tree);
+	print(tree);
+
+	//test re-inserting	
+	insert(tree, 1);
+	insert(tree, 3);
+	insert(tree, 2);
+	print(tree);
 
 	destroy(&tree);
 	assert(tree == NULL);
