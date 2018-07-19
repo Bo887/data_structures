@@ -25,10 +25,14 @@ int main(){
 	assert(size(tree) == 7);
 	print(tree);
 
+	//delete min
+	assert(min(tree) == 1);
 	delete_min(tree);
 	print(tree);
+	assert(min(tree) == 2);
 	delete_min(tree);
 	print(tree);
+	assert(min(tree) == 3);
 	delete_min(tree);
 	print(tree);
 
@@ -37,6 +41,53 @@ int main(){
 	insert(tree, 3);
 	insert(tree, 2);
 	print(tree);
+
+	assert(max(tree) == 7);
+	delete_max(tree);
+	print(tree);
+	assert(max(tree) == 6);
+	delete_max(tree);
+	print(tree);
+	assert(max(tree) == 5);
+	delete_max(tree);
+	print(tree);
+
+	insert(tree, 7);
+	insert(tree, 6);
+	insert(tree, 5);
+	print(tree);
+
+	for(int i=1; i<=7; i++){
+		assert(contains(tree, i) != 0);
+	}
+	assert(contains(tree, 0) == 0);
+	assert(contains(tree, 8) == 0);
+
+	printf("\n");
+
+	delete(tree, 4);
+	print(tree);
+	delete(tree, 7);
+	print(tree);
+/*
+	delete(tree, 1);
+	print(tree);
+	delete(tree, 1);
+	print(tree);
+
+	insert(tree, 7);
+	insert(tree, 4);
+	insert(tree, 1);
+	print(tree);
+
+	delete(tree, 7);
+	delete(tree, 1);
+	delete(tree, 2);
+	delete(tree, 3);
+	delete(tree, 6);
+	delete(tree, 5);
+	delete(tree, 4);
+	*/
 
 	destroy(&tree);
 	assert(tree == NULL);

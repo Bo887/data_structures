@@ -91,8 +91,8 @@ static Node* rotate_left(Node* node){
 	Node* right = node->right;
 	node->right = right->left;
 	right->left = node;
-	right->color = node->color;
-	node->color = RED;
+	right->color = right->left->color;
+	right->left->color = RED;
 	return right;
 }
 
@@ -100,19 +100,19 @@ static Node* rotate_right(Node* node){
 	Node* left = node->left;
 	node->left = left->right;
 	left->right = node;
-	left->color = node->color;
-	node->color = RED;
+	left->color = left->right->color;
+	left->right->color = RED;
 	return left;
 }
 
-static Node* flip_colors(Node* node){
+static void flip_colors(Node* node){
 	node->color = !node->color;
 	node->right->color = !node->right->color;
 	node->left->color = !node->left->color;
 }
 
 static Node* balance_tree(Node* node){
-	if (is_red(node->right) && !is_red(node->left)){
+	if (is_red(node->right)){
 		node = rotate_left(node);
 	}
 	//only rotate right if we can later flip both colors
@@ -151,7 +151,7 @@ static void _print(Node* node){
 	_print(node->right);
 }
 
-static int max(int a, int b){
+static int max_cmp(int a, int b){
 	return a > b ? a : b;
 }
 
@@ -159,15 +159,18 @@ static int _height(Node* node){
 	if (node == NULL){
 		return 0;
 	}
-	return 1 + max(_height(node->left), _height(node->right));
+	return 1 + max_cmp(_height(node->left), _height(node->right));
+}
+
+static int _contains(Node* node, int val){
+	if (node == NULL){
+		return 0;
+	}
+	if (node->val == val) return 1;
+	return _contains(node->left, val) || _contains(node->right, val);
 }
 
 static Node* move_red_left(Node* node){
-	assert(node != NULL);
-	assert(is_red(node));
-	assert(!is_red(node->left));
-	assert(!is_red(node->right));
-
 	flip_colors(node);
 	if (is_red(node->right->left)){
 		node->right = rotate_right(node->right);
@@ -175,6 +178,29 @@ static Node* move_red_left(Node* node){
 		flip_colors(node);
 	}
 	return node;
+}
+
+static Node* move_red_right(Node* node){
+	flip_colors(node);
+	if (is_red(node->left->left)){
+		node = rotate_right(node);
+		flip_colors(node);
+	}
+	return node;
+}
+
+static Node* _min(Node* node){
+	if (node->left == NULL){
+		return node;
+	}
+	return _min(node->left);
+}
+
+static Node* _max(Node* node){
+	if (node->right == NULL){
+		return node;
+	}
+	return _max(node->right);
 }
 
 static Node* _delete_min(Node* node){
@@ -189,20 +215,56 @@ static Node* _delete_min(Node* node){
 	return balance_tree(node);
 }
 
-static Node* _delete(Node* node, int val){
-	if (node == NULL){
+static Node* _delete_max(Node* node){
+	if (is_red(node->left)){
+		node = rotate_right(node);
+	}
+	if (node->right == NULL){
+		free(node);
 		return NULL;
 	}
+	if (!is_red(node->right) && !is_red(node->right->left)){
+		node = move_red_right(node);
+	}
+	node->right = _delete_max(node->right);
+	return balance_tree(node);
+}
+
+static Node* _delete(Node* node, int val){
 	int cmp = compare(val, node->val);
+	printf("VAL:%d, Node_VAL:%d\n", val, node->val);
 	if (cmp < 0){
+		if (!is_red(node->left) && !is_red(node->left->left)){
+			node = move_red_left(node);
+		}
 		node->left = _delete(node->left, val);
 	}
 	else{
-
+		if (is_red(node->left)){
+			node = rotate_right(node);
+		}
+		if (cmp == 0 && node->right == NULL){
+			free(node);
+			return NULL;
+		}
+		if (!is_red(node->right) && !is_red(node->right->left)){
+			node = move_red_right(node);
+		}
+		if (cmp == 0){
+			//printf("HI\n");
+			printf("NODE->VAL:%d, NODE RIGHT VAL:%d\n", node->val, _min(node->right)->val);
+			node->val = _min(node->right)->val;
+			node->right = _delete_min(node->right);
+		}
+		else{
+			node->right = _delete(node->right, val);
+		}
 	}
+	return balance_tree(node);
 }
 
 void insert(RBTree* this, int val){
+	if (contains(this, val)) return;
 	this->root = _insert(this->root, val);	
 	this->root->color = BLACK;
 	this->m_size++;
@@ -221,8 +283,39 @@ void delete_min(RBTree* this){
 	check_tree(this);
 }
 
-void delete(RBTree* this, int val){
+int min(RBTree* this){
+	if (size(this) == 0) return INT_MIN;
+	return _min(this->root)->val;
+}
+
+void delete_max(RBTree* this){
+	if (!is_red(this->root->left) && !is_red(this->root->right)){
+		this->root->color = RED;
+	}
+	this->root = _delete_max(this->root);
 	this->m_size--;
+	if (size(this) != 0){
+		this->root->color = BLACK;
+	}
+	check_tree(this);
+}
+
+int max(RBTree* this){
+	if (size(this) == 0) return INT_MAX;
+	return _max(this->root)->val;
+}
+
+void delete(RBTree* this, int val){
+	if (!contains(this, val)) return;
+	if (!is_red(this->root->left) && !is_red(this->root->right)){
+		this->root->color = RED;
+	}
+	this->root = _delete(this->root, val);
+	this->m_size--;
+	if (size(this) != 0){
+		this->root->color = BLACK;
+	}
+	check_tree(this);
 }
 
 int height(RBTree* this){
@@ -231,6 +324,10 @@ int height(RBTree* this){
 
 int size(RBTree* this){
 	return this->m_size;
+}
+
+int contains(RBTree* this, int val){
+	return _contains(this->root, val);
 }
 
 void print(RBTree* this){

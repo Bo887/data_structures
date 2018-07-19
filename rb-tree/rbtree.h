@@ -23,9 +23,16 @@ void insert(RBTree* this, int val);
 
 void delete_min(RBTree* this);
 
+int min(RBTree* this);
+
 void delete_max(RBTree* this);
 
+int max(RBTree* this);
+
+//doesn't completely work yet
 void delete(RBTree* this, int val);
+
+int contains(RBTree* this, int val);
 
 void print(RBTree* this);
 
