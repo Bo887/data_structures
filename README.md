@@ -6,5 +6,5 @@ Implementation of common data structures to practice C programming
 - [x] Binary Heap
 - [x] Binary Search Tree
 - [x] Red-Black Tree
-- [ ] Hash Table
+- [x] Hash Table
 - [ ] Trie
