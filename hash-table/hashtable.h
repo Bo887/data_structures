@@ -3,11 +3,13 @@
 
 #include <stddef.h>
 
+#define INITIAL_SIZE 10
+
 typedef struct _HashTable HashTable;
 
 struct _HashTable{
-	void* key;
-	void* val;
+	void** keys;
+	void** vals;
 	int m_size;
 	int (*hash)(void* key);
 };
