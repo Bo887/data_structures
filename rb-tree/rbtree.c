@@ -231,9 +231,7 @@ static Node* _delete_max(Node* node){
 }
 
 static Node* _delete(Node* node, int val){
-	int cmp = compare(val, node->val);
-	printf("VAL:%d, Node_VAL:%d\n", val, node->val);
-	if (cmp < 0){
+	if (compare(val, node->val) < 0){
 		if (!is_red(node->left) && !is_red(node->left->left)){
 			node = move_red_left(node);
 		}
@@ -243,16 +241,15 @@ static Node* _delete(Node* node, int val){
 		if (is_red(node->left)){
 			node = rotate_right(node);
 		}
-		if (cmp == 0 && node->right == NULL){
+		//printf("DEBUG: %d\t%d\n", node->val, node->right->val);
+		if (compare(val, node->val) == 0 && node->right == NULL){
 			free(node);
 			return NULL;
 		}
 		if (!is_red(node->right) && !is_red(node->right->left)){
 			node = move_red_right(node);
 		}
-		if (cmp == 0){
-			//printf("HI\n");
-			printf("NODE->VAL:%d, NODE RIGHT VAL:%d\n", node->val, _min(node->right)->val);
+		if (compare(val, node->val) == 0){
 			node->val = _min(node->right)->val;
 			node->right = _delete_min(node->right);
 		}

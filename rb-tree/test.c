@@ -69,7 +69,6 @@ int main(){
 	print(tree);
 	delete(tree, 7);
 	print(tree);
-/*
 	delete(tree, 1);
 	print(tree);
 	delete(tree, 1);
@@ -80,6 +79,7 @@ int main(){
 	insert(tree, 1);
 	print(tree);
 
+	printf("Deleting everything....\n");
 	delete(tree, 7);
 	delete(tree, 1);
 	delete(tree, 2);
@@ -87,7 +87,7 @@ int main(){
 	delete(tree, 6);
 	delete(tree, 5);
 	delete(tree, 4);
-	*/
+	print(tree);
 
 	destroy(&tree);
 	assert(tree == NULL);
