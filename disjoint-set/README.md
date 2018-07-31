@@ -1,7 +1,7 @@
 # Disjoint-Set
 An implmenetation of the disjoint-set (union-find) data structure in C. 
 
-The join algorithm is weighted always make the smaller tree point to the larger tree. 
+The join algorithm is weighted to always make the smaller tree point to the larger tree. 
 
 **Operations:**
 - ```int join(DisjointSet* this, int p, int q)```

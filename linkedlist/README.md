@@ -1,7 +1,7 @@
 # LinkedList
 An implementation of a doubly-linked list in C. Supports deque operations (pushing and popping at either end) as well as deletion of a specific value.
 
-Operations:
+**Operations:**
 - ```void push_front(List* list, int val)```
 - ```void push_back(List* list, int val)```
 - ```int pop_front(List* list)```
@@ -14,7 +14,7 @@ Operations:
 - ```List* create()```
 - ```void destroy(List** list)```
 
-Example:
+**Example:**
 ```
 #include "linkedlist.h"
 
