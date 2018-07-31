@@ -5,7 +5,7 @@
 #include <assert.h>
 
 int main(){
-	HashTable* test = create(10);
+	HashTable* test = create(1);
         
         char* keys[] = {"APPLE", "FROG", "BEAR", "GHOST", "TREE", "COW", "HAM", "JAGUAR", "PIRATE", "DOG", "CHICKEN", "EGGPLANT", "WAVE", "ZEBRA", "KEY"};
 
@@ -28,10 +28,12 @@ int main(){
             assert(get(test, keys[i]) == i);
         }
 
-        /*
-        delete(test, "APPLE");
+        for(int i=0; i<15; i++){
+            delete(test, keys[i]);
+            assert(size(test) == 15-1-i);
+        }
         print_all(test);
-        */
+        print(test);
 
 	destroy(&test);
 	assert(test==NULL);

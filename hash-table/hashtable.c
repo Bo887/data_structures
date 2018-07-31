@@ -45,9 +45,7 @@ static void resize(HashTable* this, int new_size){
     //rehash all the keys when we resize
     for(int i=0; i<this->table_size; i++){
         if (this->keys[i] != NULL){
-
             int j = hash(this->keys[i])%new_size;
-
             for(; new_keys[j] != NULL; j = (j+1)%new_size){
                 if (strcmp(new_keys[j], this->keys[i]) == 0){
                     new_vals[j] = this->vals[i];
@@ -58,10 +56,19 @@ static void resize(HashTable* this, int new_size){
             new_vals[j] = this->vals[i];
         }
     }
-    free(this->keys);
-    free(this->vals);
-    this->keys = new_keys;
-    this->vals = new_vals;
+
+    char** realloced_keys = realloc(this->keys, sizeof(char*)*new_size);
+    int* realloced_vals = realloc(this->vals, sizeof(int)*new_size);
+
+    for(int i=0; i<new_size; i++){
+        realloced_keys[i] = new_keys[i];
+        realloced_vals[i] = new_vals[i];
+    }
+
+    free(new_keys);
+    free(new_vals);
+    this->keys = realloced_keys;
+    this->vals = realloced_vals;
 }
 
 HashTable* create(int initial_size){
@@ -126,12 +133,26 @@ int get(HashTable* this, char* key){
 }
 
 void delete(HashTable* this, char* key){
-    if (!contains(this, key)) return;
+    if (!contains(this, key)){
+        printf("Hash Table doesn't contain key %s\n", key);
+        return;
+    }
     int i = hash(key)%this->table_size;
-    for(; this->keys[i] != NULL; i = (i+1)%this->table_size);
-    printf("%d\n", i);
+    for(; strcmp(this->keys[i], key) != 0; i = (i+1)%this->table_size);
     this->keys[i] = NULL;
     this->vals[i] = -1;
+
+    //rehash all the keys in the same group
+    i = (i+1)%this->table_size;
+    while(this->keys[i] != NULL){
+        char* curr_k = this->keys[i];
+        int curr_v = this->vals[i];
+        this->keys[i] = NULL;
+        this->vals[i] = -1;
+        this->num_keys--;
+        insert(this, curr_k, curr_v);
+        i = (i+1)%this->table_size;
+    }
     this->num_keys--;
 }
 
