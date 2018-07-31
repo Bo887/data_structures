@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #define INITIAL_SIZE 10
+
 typedef struct _HashTable HashTable;
 
 struct _HashTable{
@@ -18,13 +19,15 @@ void insert(HashTable* this, char* key, int val);
 
 int contains(HashTable* this, char* key);
 
-void* find(HashTable* this, char* key);
+int get(HashTable* this, char* key);
 
 void delete(HashTable* this, char* key);
 
 int size(HashTable* this);
 
 void print(HashTable* this);
+
+void print_all(HashTable* this);
 
 HashTable* create();
 

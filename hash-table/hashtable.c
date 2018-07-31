@@ -14,6 +14,59 @@ static long hash(char* key){
     return rv;
 }
 
+static char** resize_keys(char** keys, int old_size, int new_size){
+    char** tmp = malloc(sizeof(char*)*new_size); 
+    for(int i=0; i<old_size; i++){
+        tmp[i] = keys[i];
+    }
+    for(int i=old_size; i<new_size; i++){
+        tmp[i] = NULL;
+    }
+    if (tmp){
+         return tmp;
+    }    
+    printf("RESIZE KEYS FAILED!\n");
+    return NULL;
+}
+
+static int* resize_vals(int* vals, int old_size, int new_size){
+    int* tmp = malloc(sizeof(int)*new_size);
+    for(int i=0; i<old_size; i++){
+        tmp[i] = vals[i];
+    }
+    if (tmp){
+        return tmp;
+    }
+    printf("RESIZE VALS FAILED!\n");
+    return NULL;
+}
+
+static void resize(HashTable* this, int new_size){
+    char** new_keys = resize_keys(this->keys, this->table_size, new_size);
+    int* new_vals = resize_vals(this->vals, this->table_size, new_size);
+
+    //rehash all the keys when we resize
+    for(int i=0; i<this->table_size; i++){
+
+        if (this->keys[i] != NULL){
+            int j = hash(this->keys[i])%new_size;
+            for(; new_keys[j] != NULL; j = (j+1)%new_size){
+                if (strcmp(new_keys[j], this->keys[i]) == 0){
+                    new_vals[j] = this->vals[i];
+                    break;
+                }
+            }
+            new_keys[j] = this->keys[i];
+            new_vals[j] = this->vals[i];
+        }
+
+    }
+    free(this->keys);
+    free(this->vals);
+    this->keys = new_keys;
+    this->vals = new_vals;
+}
+
 HashTable* create(){
     HashTable* this = malloc(sizeof(HashTable));
 
@@ -25,23 +78,54 @@ HashTable* create(){
 
     for(int i=0; i<this->table_size; i++){
         this->keys[i] = NULL;
-        this->vals[i] = NULL;
+        this->vals[i] = 0;
     }
 
     return this;
 }
 
 void insert(HashTable* this, char* key, int val){
-   int i = hash(key)%this->table_size;
-   for(;this->keys[i] != NULL; i = (i+1)%this->table_size){
+    //resize array
+    if (this->num_keys > this->table_size/2){
+        resize(this, this->table_size*2);
+        this->table_size*=2;
+    }
+    
+    //compute hash value
+    int i = hash(key)%this->table_size;
+
+    //handle collision through linear probing
+    for(; this->keys[i] != NULL; i = (i+1)%this->table_size){
+        //if this key already exists, replace the value
+         if (strcmp(this->keys[i], key) == 0){
+             this->vals[i] = val;
+             return;
+         }
+    }
+    //otherwise, insert the key and value
+    this->keys[i] = key;
+    this->vals[i] = val;
+    this->num_keys++;
+}
+
+int contains(HashTable* this, char* key){
+    int i = hash(key)%this->table_size;
+    for(; this->keys[i] != NULL; i = (i+1)%this->table_size){
         if (strcmp(this->keys[i], key) == 0){
-            this->vals[i] = val;
-            return;
+            return 1;
         }
-   }
-   this->keys[i] = key;
-   this->vals[i] = val;
-   this->num_keys++;
+    }
+    return 0;
+}
+
+int get(HashTable* this, char* key){
+    int i = hash(key)%this->table_size;
+    for(; this->keys[i] != NULL; i = (i+1)%this->table_size){
+        if (strcmp(this->keys[i], key) == 0){
+            return this->vals[i];
+        }
+    }
+    return -1;
 }
 
 int size(HashTable* this){
@@ -56,6 +140,20 @@ void print(HashTable* this){
         }
     }
     printf("\n");
+}
+
+void print_all(HashTable* this){
+    printf("PrintAll: Size:%d ", this->table_size);
+    for(int i=0; i<this->table_size; i++){
+        if (this->keys[i] != NULL){
+            printf("(%s,%d) ", this->keys[i], this->vals[i]);
+        }
+        else{
+            printf("NULL ");
+        }
+    }
+    printf("\n");
+
 }
 
 void destroy(HashTable** table){
