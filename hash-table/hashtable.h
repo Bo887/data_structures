@@ -3,8 +3,6 @@
 
 #include <stddef.h>
 
-#define INITIAL_SIZE 10
-
 typedef struct _HashTable HashTable;
 
 struct _HashTable{
@@ -29,7 +27,7 @@ void print(HashTable* this);
 
 void print_all(HashTable* this);
 
-HashTable* create();
+HashTable* create(int initial_size);
 
 void destroy(HashTable** table);
 

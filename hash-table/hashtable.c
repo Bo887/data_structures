@@ -14,12 +14,9 @@ static long hash(char* key){
     return rv;
 }
 
-static char** resize_keys(char** keys, int old_size, int new_size){
+static char** create_keys(char** keys, int old_size, int new_size){
     char** tmp = malloc(sizeof(char*)*new_size); 
-    for(int i=0; i<old_size; i++){
-        tmp[i] = keys[i];
-    }
-    for(int i=old_size; i<new_size; i++){
+    for(int i=0; i<new_size; i++){
         tmp[i] = NULL;
     }
     if (tmp){
@@ -29,7 +26,7 @@ static char** resize_keys(char** keys, int old_size, int new_size){
     return NULL;
 }
 
-static int* resize_vals(int* vals, int old_size, int new_size){
+static int* create_vals(int* vals, int old_size, int new_size){
     int* tmp = malloc(sizeof(int)*new_size);
     for(int i=0; i<old_size; i++){
         tmp[i] = vals[i];
@@ -42,14 +39,15 @@ static int* resize_vals(int* vals, int old_size, int new_size){
 }
 
 static void resize(HashTable* this, int new_size){
-    char** new_keys = resize_keys(this->keys, this->table_size, new_size);
-    int* new_vals = resize_vals(this->vals, this->table_size, new_size);
+    char** new_keys = create_keys(this->keys, this->table_size, new_size);
+    int* new_vals = create_vals(this->vals, this->table_size, new_size);
 
     //rehash all the keys when we resize
     for(int i=0; i<this->table_size; i++){
-
         if (this->keys[i] != NULL){
+
             int j = hash(this->keys[i])%new_size;
+
             for(; new_keys[j] != NULL; j = (j+1)%new_size){
                 if (strcmp(new_keys[j], this->keys[i]) == 0){
                     new_vals[j] = this->vals[i];
@@ -59,7 +57,6 @@ static void resize(HashTable* this, int new_size){
             new_keys[j] = this->keys[i];
             new_vals[j] = this->vals[i];
         }
-
     }
     free(this->keys);
     free(this->vals);
@@ -67,13 +64,13 @@ static void resize(HashTable* this, int new_size){
     this->vals = new_vals;
 }
 
-HashTable* create(){
+HashTable* create(int initial_size){
     HashTable* this = malloc(sizeof(HashTable));
 
-    this->keys = malloc(sizeof(char*)*INITIAL_SIZE);
-    this->vals = malloc(sizeof(int)*INITIAL_SIZE);
+    this->keys = malloc(sizeof(char*)*initial_size);
+    this->vals = malloc(sizeof(int)*initial_size);
 
-    this->table_size = INITIAL_SIZE;
+    this->table_size = initial_size;
     this->num_keys = 0;
 
     for(int i=0; i<this->table_size; i++){
@@ -126,6 +123,16 @@ int get(HashTable* this, char* key){
         }
     }
     return -1;
+}
+
+void delete(HashTable* this, char* key){
+    if (!contains(this, key)) return;
+    int i = hash(key)%this->table_size;
+    for(; this->keys[i] != NULL; i = (i+1)%this->table_size);
+    printf("%d\n", i);
+    this->keys[i] = NULL;
+    this->vals[i] = -1;
+    this->num_keys--;
 }
 
 int size(HashTable* this){
