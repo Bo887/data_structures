@@ -1,4 +1,4 @@
-# data_structures
+# Data Structures
 Project to review data structures and practice C programming. 
 
 Each individual folder contains more detailed information.
