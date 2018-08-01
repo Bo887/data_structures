@@ -20,3 +20,51 @@ Implements a left-leaning red-black tree in C based on [Robert Sedgewick's paper
 - ```int size(RBTree* tree)```
 - ```RBTree* create()```
 - ```void destroy(RBTree** tree)```
+
+**Example:**
+```
+#include "rbtree.h"
+
+int main(){
+  //create a tree
+  RBTree* tree = create();
+  
+  //insert into the tree
+  insert(tree, 1);
+  insert(tree, 2);
+  insert(tree, 3);
+  insert(tree, 4);
+  insert(tree, 5);
+  insert(tree, 6);
+  insert(tree, 7);
+  
+  //1 2 3 4 5 6 7
+  print(tree);
+  //returns 7
+  size(tree);
+  //returns 2
+  height(tree);
+  
+  //returns 1
+  min(tree);
+  delete_min(tree);
+  //returns 2
+  min(tree);
+  
+  //returns 7
+  max(tree);
+  delete_max(tree);
+  //returns 6
+  max(tree);
+  
+  //2 3 4 5 6
+  print(tree);
+  
+  delete(tree,4);
+  //2 3 5 6 
+  print(tree);
+
+  destroy(&tree);
+  return 0;
+}
+```
