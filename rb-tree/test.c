@@ -14,14 +14,14 @@ int main(){
 	print(tree);
 	insert(tree, 2);
 	print(tree);
-	assert(height(tree) == 2);
+	assert(height(tree) == 1);
 	insert(tree, 3);
 	insert(tree, 4);
 	insert(tree, 5);
 	insert(tree, 6);
 	insert(tree, 7);
-	//the height for an unbalanced bst would be 7, but for a r-b bst would be 3
-	assert(height(tree) == 3);
+	//the height for an unbalanced bst would be 6, but for a r-b bst would be 2
+	assert(height(tree) == 2);
 	assert(size(tree) == 7);
 	print(tree);
 

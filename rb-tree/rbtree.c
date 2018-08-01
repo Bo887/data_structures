@@ -157,7 +157,7 @@ static int max_cmp(int a, int b){
 
 static int _height(Node* node){
 	if (node == NULL){
-		return 0;
+		return -1;
 	}
 	return 1 + max_cmp(_height(node->left), _height(node->right));
 }
