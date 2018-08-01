@@ -29,7 +29,6 @@ void delete_max(RBTree* this);
 
 int max(RBTree* this);
 
-//doesn't completely work yet
 void delete(RBTree* this, int val);
 
 int contains(RBTree* this, int val);
