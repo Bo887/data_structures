@@ -1,5 +1,7 @@
 # data_structures
-Implementation of common data structures to practice C programming
+Project to review data structures and practice C programming. 
+
+Each individual folder contains more detailed information.
 
 - [x] Linked List
 - [x] Disjoint-Set
