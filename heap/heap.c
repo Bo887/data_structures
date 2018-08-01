@@ -26,10 +26,10 @@ static int* halve_arr(int* arr, int new_size){
 //if min heap, returns true if a is greater than b
 static int cmp(Type type, int a, int b){
 	if (type == MAX){
-		return a < b;
+                return a < b;
 	}
 	else{
-		return a > b;
+                return a > b;
 	}
 }
 
@@ -82,7 +82,7 @@ static int is_heap_ordered(Heap* this, int id){
 		}
 		else return is_heap_ordered(this, child_r);
 	}
-	return 0;
+	return 1;
 }
 
 void test_functions(){
