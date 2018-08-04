@@ -60,7 +60,6 @@ static Node* _insert(BST* bst, Node* node, void* key, void* val){
 }
 
 static Node* _delete(BST* bst, Node* curr, void* key){
-	printf("ROOT: %s\n", (char*)bst->root->key);
 	if (curr == NULL){
 		return NULL;
 	}
